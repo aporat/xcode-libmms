@@ -1,0 +1,229 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6DF9A32A1360F5AE00A45F17 /* mmsx.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DF9A31E1360F5AE00A45F17 /* mmsx.h */; };
+		6DF9A32B1360F5AE00A45F17 /* mmsx.c in Sources */ = {isa = PBXBuildFile; fileRef = 6DF9A31F1360F5AE00A45F17 /* mmsx.c */; };
+		6DF9A32C1360F5AE00A45F17 /* mmsio.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DF9A3201360F5AE00A45F17 /* mmsio.h */; };
+		6DF9A32D1360F5AE00A45F17 /* mmsh.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DF9A3211360F5AE00A45F17 /* mmsh.h */; };
+		6DF9A32E1360F5AE00A45F17 /* mmsh.c in Sources */ = {isa = PBXBuildFile; fileRef = 6DF9A3221360F5AE00A45F17 /* mmsh.c */; };
+		6DF9A32F1360F5AE00A45F17 /* mms.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DF9A3231360F5AE00A45F17 /* mms.h */; };
+		6DF9A3301360F5AE00A45F17 /* mms.c in Sources */ = {isa = PBXBuildFile; fileRef = 6DF9A3241360F5AE00A45F17 /* mms.c */; };
+		6DF9A3311360F5AE00A45F17 /* mms-common.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DF9A3251360F5AE00A45F17 /* mms-common.h */; };
+		6DF9A3321360F5AE00A45F17 /* mms-common-funcs.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DF9A3261360F5AE00A45F17 /* mms-common-funcs.h */; };
+		6DF9A3331360F5AE00A45F17 /* mms_config.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DF9A3271360F5AE00A45F17 /* mms_config.h */; };
+		6DF9A3341360F5AE00A45F17 /* bswap.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DF9A3281360F5AE00A45F17 /* bswap.h */; };
+		6DF9A3351360F5AE00A45F17 /* asfheader.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DF9A3291360F5AE00A45F17 /* asfheader.h */; };
+		6DF9A35E1360F95300A45F17 /* MMS_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 6DF9A35D1360F95300A45F17 /* MMS_Prefix.pch */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		6DF9A3161360F56700A45F17 /* libMMS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMMS.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		6DF9A31E1360F5AE00A45F17 /* mmsx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mmsx.h; sourceTree = "<group>"; };
+		6DF9A31F1360F5AE00A45F17 /* mmsx.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mmsx.c; sourceTree = "<group>"; };
+		6DF9A3201360F5AE00A45F17 /* mmsio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mmsio.h; sourceTree = "<group>"; };
+		6DF9A3211360F5AE00A45F17 /* mmsh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mmsh.h; sourceTree = "<group>"; };
+		6DF9A3221360F5AE00A45F17 /* mmsh.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mmsh.c; sourceTree = "<group>"; };
+		6DF9A3231360F5AE00A45F17 /* mms.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mms.h; sourceTree = "<group>"; };
+		6DF9A3241360F5AE00A45F17 /* mms.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mms.c; sourceTree = "<group>"; };
+		6DF9A3251360F5AE00A45F17 /* mms-common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "mms-common.h"; sourceTree = "<group>"; };
+		6DF9A3261360F5AE00A45F17 /* mms-common-funcs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "mms-common-funcs.h"; sourceTree = "<group>"; };
+		6DF9A3271360F5AE00A45F17 /* mms_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mms_config.h; sourceTree = "<group>"; };
+		6DF9A3281360F5AE00A45F17 /* bswap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bswap.h; sourceTree = "<group>"; };
+		6DF9A3291360F5AE00A45F17 /* asfheader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = asfheader.h; sourceTree = "<group>"; };
+		6DF9A35D1360F95300A45F17 /* MMS_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMS_Prefix.pch; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6DF9A3131360F56700A45F17 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6DF9A30B1360F56700A45F17 = {
+			isa = PBXGroup;
+			children = (
+				6DF9A31D1360F59100A45F17 /* Source */,
+				6DF9A3171360F56700A45F17 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6DF9A3171360F56700A45F17 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6DF9A3161360F56700A45F17 /* libMMS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6DF9A31D1360F59100A45F17 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				6DF9A31E1360F5AE00A45F17 /* mmsx.h */,
+				6DF9A31F1360F5AE00A45F17 /* mmsx.c */,
+				6DF9A3201360F5AE00A45F17 /* mmsio.h */,
+				6DF9A3211360F5AE00A45F17 /* mmsh.h */,
+				6DF9A3221360F5AE00A45F17 /* mmsh.c */,
+				6DF9A3231360F5AE00A45F17 /* mms.h */,
+				6DF9A3241360F5AE00A45F17 /* mms.c */,
+				6DF9A3251360F5AE00A45F17 /* mms-common.h */,
+				6DF9A3261360F5AE00A45F17 /* mms-common-funcs.h */,
+				6DF9A3271360F5AE00A45F17 /* mms_config.h */,
+				6DF9A3281360F5AE00A45F17 /* bswap.h */,
+				6DF9A3291360F5AE00A45F17 /* asfheader.h */,
+				6DF9A35D1360F95300A45F17 /* MMS_Prefix.pch */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		6DF9A3141360F56700A45F17 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6DF9A32A1360F5AE00A45F17 /* mmsx.h in Headers */,
+				6DF9A32C1360F5AE00A45F17 /* mmsio.h in Headers */,
+				6DF9A32D1360F5AE00A45F17 /* mmsh.h in Headers */,
+				6DF9A32F1360F5AE00A45F17 /* mms.h in Headers */,
+				6DF9A3311360F5AE00A45F17 /* mms-common.h in Headers */,
+				6DF9A3321360F5AE00A45F17 /* mms-common-funcs.h in Headers */,
+				6DF9A3331360F5AE00A45F17 /* mms_config.h in Headers */,
+				6DF9A3341360F5AE00A45F17 /* bswap.h in Headers */,
+				6DF9A3351360F5AE00A45F17 /* asfheader.h in Headers */,
+				6DF9A35E1360F95300A45F17 /* MMS_Prefix.pch in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		6DF9A3151360F56700A45F17 /* MMS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6DF9A31A1360F56700A45F17 /* Build configuration list for PBXNativeTarget "MMS" */;
+			buildPhases = (
+				6DF9A3121360F56700A45F17 /* Sources */,
+				6DF9A3131360F56700A45F17 /* Frameworks */,
+				6DF9A3141360F56700A45F17 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MMS;
+			productName = MMS;
+			productReference = 6DF9A3161360F56700A45F17 /* libMMS.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6DF9A30D1360F56700A45F17 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "Hadar Porat";
+			};
+			buildConfigurationList = 6DF9A3101360F56700A45F17 /* Build configuration list for PBXProject "MMS" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 6DF9A30B1360F56700A45F17;
+			productRefGroup = 6DF9A3171360F56700A45F17 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6DF9A3151360F56700A45F17 /* MMS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6DF9A3121360F56700A45F17 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6DF9A32B1360F5AE00A45F17 /* mmsx.c in Sources */,
+				6DF9A32E1360F5AE00A45F17 /* mmsh.c in Sources */,
+				6DF9A3301360F5AE00A45F17 /* mms.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		6DF9A3191360F56700A45F17 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = NO;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				VALID_ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+			};
+			name = Release;
+		};
+		6DF9A31C1360F56700A45F17 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EXECUTABLE_PREFIX = lib;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = MMS_Prefix.pch;
+				GCC_VERSION = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				MACOSX_DEPLOYMENT_TARGET = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				VALID_ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6DF9A3101360F56700A45F17 /* Build configuration list for PBXProject "MMS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6DF9A3191360F56700A45F17 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6DF9A31A1360F56700A45F17 /* Build configuration list for PBXNativeTarget "MMS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6DF9A31C1360F56700A45F17 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6DF9A30D1360F56700A45F17 /* Project object */;
+}
