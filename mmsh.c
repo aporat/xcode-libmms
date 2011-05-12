@@ -221,8 +221,10 @@ struct mmsh_s {
 static void report_progress(void *data, int p)
 {
 	char message[1024];
-	sprintf(message,"Loading HTTP Stream... ( %d%% )",p);
-	Status_SetNewStatusString(message);
+  
+  
+	sprintf(message,Status_GetNewStatusByKey("LOADING_HTTP_STREAM... ( %d%% )"),p);
+	Status_SetNewStatusByKey(message);
 }
 
 const static char *const mms_proto_s[] = { "mms", "mmsh", NULL };

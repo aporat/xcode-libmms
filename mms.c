@@ -71,7 +71,6 @@ fprintf(stderr, "mms: " __VA_ARGS__)
 #include "bswap.h"
 #include "mms.h"
 #include "asfheader.h"
-//#include "uri.h"
 #include "mms-common.h"
 
 
@@ -470,18 +469,22 @@ static int send_command (mms_io_t *io, mms_t *this, int command,
 }
 
 
-static void string_utf16(int unused, char *dest, char *src, int len) {
-  int i;
+static int string_utf16(iconv_t url_conv, char *dest, char *src, int dest_len)
+{
+  char *ip = src, *op = dest;
+  size_t ip_len = strlen(src);
+  size_t op_len = dest_len - 2; /* reserve 2 bytes for 0 termination */
   
-  memset (dest, 0, 2 * len);
-  
-  for (i = 0; i < len; i++) {
-    dest[i * 2] = src[i];
-    dest[i * 2 + 1] = 0;
+  if (iconv(url_conv, &ip, &ip_len, &op, &op_len) == (size_t)-1) {
+    lprintf("Error converting uri to unicode: %s\n", strerror(get_errno()));
+    return 0;
   }
   
-  dest[i * 2] = 0;
-  dest[i * 2 + 1] = 0;
+  /* 0 terminate the string */
+  *op++ = 0;
+  *op++ = 0;
+  
+  return op - dest;
 }
 
 /*
@@ -666,8 +669,8 @@ static void mms_gen_guid(char guid[]) {
 static void report_progress(void *data, int p)
 {
 	char message[1024];
-	sprintf(message,"Loading TCP Stream... ( %d%% )",p);
-	Status_SetNewStatusString(message);
+	sprintf(message,Status_GetNewStatusByKey("LOADING_TCP_STREAM... ( %d%% )"),p);
+	Status_SetNewStatusByKey(message);
 }
 
 const char *status_to_string(int status)
@@ -755,8 +758,7 @@ int static mms_choose_best_streams(mms_io_t *io, mms_t *this) {
  */
 /* FIXME: got somewhat broken during xine_stream_t->(void*) conversion */
 mms_t *mms_connect (mms_io_t *io, void *data, const char *url, const char *host, const char *uri,const  char *query,int pport, int bandwidth) {
-
-  int     url_conv = 0;
+  iconv_t url_conv = (iconv_t)-1;
 
   mms_t  *this;
   int     res;
@@ -812,26 +814,34 @@ mms_t *mms_connect (mms_io_t *io, void *data, const char *url, const char *host,
   
   if (mms_tcp_connect(io, this)) {
     goto fail;
+    
   }
-
-  report_progress (NULL, 30); 
+  
+  url_conv = iconv_open("UTF-16LE", "UTF-8");
+  if (url_conv == (iconv_t)-1) {
+    lprintf("could not get iconv handle to convert url to unicode\n");
+    goto fail;
+  }
   
   /*
    * let the negotiations begin...
    */
+  
+  report_progress (NULL, 25); 
 
   /* command 0x1 */
   lprintf("send command 0x01\n");
   mms_buffer_init(&command_buffer, this->scmd_body);
   mms_buffer_put_32 (&command_buffer, 0x0003001C);
-
   mms_gen_guid(this->guid);
-  sprintf (this->str, "\x1c\x03NSPlayer/7.0.0.1956; {%s}; Host: %s",
-    this->guid, this->connect_host);
-
-  string_utf16 (url_conv, this->scmd_body, this->str, strlen(this->str) + 2);
-
-  if (!send_command (io, this, 1, 0, 0x0004000b, strlen(this->str) * 2 + 8)) {
+  sprintf(this->str, "NSPlayer/7.0.0.1956; {%s}; Host: %s", this->guid,
+          this->connect_host);
+  res = string_utf16(url_conv, this->scmd_body + command_buffer.pos, this->str,
+                     CMD_BODY_LEN - command_buffer.pos);
+  if(!res)
+    goto fail;
+  
+  if (!send_command(io, this, 1, 0, 0x0004000b, command_buffer.pos + res)) {
     lprintf("failed to send command 0x01\n");
     goto fail;
   }
@@ -840,40 +850,53 @@ mms_t *mms_connect (mms_io_t *io, void *data, const char *url, const char *host,
     lprintf("unexpected response: %02x (0x01)\n", res);
     goto fail;
   }
-      
-  /* FIXME de-xine-ification */
-   report_progress (NULL, 40); 
+  
+  res = LE_32(this->buf + 40);
+  if (res != 0) {
+    lprintf("error answer 0x01 status: %08x (%s)\n",
+            res, status_to_string(res));
+    goto fail;
+  }
+  
+  report_progress (NULL, 50); 
 
   /* TODO: insert network timing request here */
   /* command 0x2 */
   lprintf("send command 0x02\n");
-  string_utf16 (url_conv, &this->scmd_body[8], "\002\000\\\\192.168.0.129\\TCP\\1037\0000", 28);
-  memset (this->scmd_body, 0, 8);
-  if (!send_command (io, this, 2, 0, 0, 28 * 2 + 8)) {
-  /* FIXME: de-xine-ification */
-    fprintf( stderr,"***LOG:*** -- "
-	    "libmms: failed to send command 0x02\n");
-
+  mms_buffer_init(&command_buffer, this->scmd_body);
+  mms_buffer_put_32 (&command_buffer, 0x00000000);
+  mms_buffer_put_32 (&command_buffer, 0x00989680);
+  mms_buffer_put_32 (&command_buffer, 0x00000002);
+  res = string_utf16(url_conv, this->scmd_body + command_buffer.pos,
+                     "\\\\192.168.0.129\\TCP\\1037",
+                     CMD_BODY_LEN - command_buffer.pos);
+  if(!res)
+    goto fail;
+  
+  if (!send_command(io, this, 2, 0, 0xffffffff, command_buffer.pos + res)) {
+    lprintf("failed to send command 0x02\n");
     goto fail;
   }
-
+  
   switch (res = get_answer (io, this)) {
     case 0x02:
       /* protocol accepted */
       break;
     case 0x03:
-  /* FIXME: de-xine-ification */
-      fprintf( stderr,"***LOG:*** -- "
-	      "libmms: protocol failed\n");
+      lprintf("protocol failed\n");
       goto fail;
-      break;
     default:
-      fprintf(stderr,"unexpected response: %02x (0x02 or 0x03)\n", res);
+      lprintf("unexpected response: %02x (0x02 or 0x03)\n", res);
       goto fail;
   }
-
-  /* FIXME de-xine-ification */
-   report_progress (NULL, 50); 
+  
+  res = LE_32(this->buf + 40);
+  if (res != 0) {
+    lprintf("error answer 0x02 status: %08x (%s)\n",
+            res, status_to_string(res));
+    goto fail;
+  }
+  report_progress (NULL, 75); 
 
   /* command 0x5 */
   {
@@ -883,9 +906,16 @@ mms_t *mms_connect (mms_io_t *io, void *data, const char *url, const char *host,
     mms_buffer_init(&command_buffer, this->scmd_body);
     mms_buffer_put_32 (&command_buffer, 0x00000000); /* ?? */
     mms_buffer_put_32 (&command_buffer, 0x00000000); /* ?? */
-    string_utf16 (url_conv, this->scmd_body + command_buffer.pos, this->uri, strlen(this->uri));
-    if (!send_command (io, this, 5, 1, 0xffffffff, strlen(this->uri) * 2 + 12))
+    
+    res = string_utf16(url_conv, this->scmd_body + command_buffer.pos,
+                       this->uri, CMD_BODY_LEN - command_buffer.pos);
+    if(!res)
       goto fail;
+    
+    if (!send_command(io, this, 5, 1, 0, command_buffer.pos + res)) {
+      lprintf("failed to send command 0x05\n");
+      goto fail;
+    }
   }
   
   switch (res = get_answer (io, this)) {
@@ -912,9 +942,14 @@ mms_t *mms_connect (mms_io_t *io, void *data, const char *url, const char *host,
       lprintf("unexpected response: %02x (0x06 or 0x1A)\n", res);
       goto fail;
   }
-
-   report_progress (NULL, 60); 
-
+  
+  res = LE_32(this->buf + 40);
+  if (res != 0) {
+    lprintf("error answer 0x06 status: %08x (%s)\n",
+            res, status_to_string(res));
+    goto fail;
+  }
+  
   /* command 0x15 */
   lprintf("send command 0x15\n");
   {
@@ -940,7 +975,14 @@ mms_t *mms_connect (mms_io_t *io, void *data, const char *url, const char *host,
     lprintf("unexpected response: %02x (0x11)\n", res);
     goto fail;
   }
-
+  
+  res = LE_32(this->buf + 40);
+  if (res != 0) {
+    lprintf("error answer 0x11 status: %08x (%s)\n",
+            res, status_to_string(res));
+    goto fail;
+  }
+  
   this->num_stream_ids = 0;
   
   if (!get_asf_header (io, this))
@@ -954,10 +996,7 @@ mms_t *mms_connect (mms_io_t *io, void *data, const char *url, const char *host,
     lprintf("mms_choose_best_streams failed\n");
     goto fail;
   }
-
-  /* FIXME de-xine-ification */
-   report_progress (NULL, 80); 
-
+  
   /* command 0x07 */
   this->packet_id_type = ASF_MEDIA_PACKET_ID_TYPE;
   {
@@ -977,11 +1016,11 @@ mms_t *mms_connect (mms_io_t *io, void *data, const char *url, const char *host,
       goto fail;
     }
   }
-
+  
+  iconv_close(url_conv);
+  lprintf("connect: passed\n");
   report_progress (NULL, 100); 
 
-  lprintf("connect: passed\n");
- 
   return this;
 
 fail:
